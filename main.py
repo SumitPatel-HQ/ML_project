@@ -18,6 +18,7 @@ from src.config import DATA_PATH
 from src.utils import setup_environment
 from src.data_loader import load_data, display_statistics, check_missing_values
 from src.visualizer import plot_price_history
+from src.preprocessor import preprocess, format_preprocessing_proof
 
 
 def main():
@@ -65,6 +66,18 @@ def main():
     print()
 
     # ==========================================================================
+    # PHASE 2: PREPROCESSING & SEQUENCE GENERATION
+    # ==========================================================================
+    print("=" * 70)
+    print("PHASE 2: Preprocessing & Sequence Generation")
+    print("=" * 70 + "\n")
+
+    bundle = preprocess(df)
+    proof = format_preprocessing_proof(bundle)
+    print(proof)
+    print()
+
+    # ==========================================================================
     # PHASE 1 COMPLETE
     # ==========================================================================
     print("=" * 70)
@@ -77,6 +90,8 @@ def main():
         f"  - Date range: {df.index.min().strftime('%Y-%m-%d')} to {df.index.max().strftime('%Y-%m-%d')}"
     )
     print(f"  - Missing values: {missing_count}")
+    print(f"  - X_train shape: {bundle['metadata']['X_train_shape']}")
+    print(f"  - X_test shape: {bundle['metadata']['X_test_shape']}")
     print()
 
 

@@ -1,5 +1,42 @@
+# Python
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+.venv/
+ENV/
+
+# IDEs
+.idea/
+.vscode/
+
+# Project Specific
 .pytest_cache/
 .ruff_cache/
-.idea/
+output/
+
+# Data and Models
+*.h5
+*.keras
+*.log
+.DS_Store

@@ -5,7 +5,11 @@ Utility functions for pipeline setup and reproducibility.
 import os
 import random
 import numpy as np
-import tensorflow as tf
+
+try:
+    import tensorflow as tf
+except ModuleNotFoundError:
+    tf = None
 
 from src.config import RANDOM_SEED, OUTPUT_DIR
 
@@ -28,7 +32,8 @@ def set_random_seeds(seed=RANDOM_SEED):
     """
     random.seed(seed)
     np.random.seed(seed)
-    tf.random.set_seed(seed)
+    if tf is not None:
+        tf.random.set_seed(seed)
     print(f"✓ Random seeds set to {seed}")
 
 
