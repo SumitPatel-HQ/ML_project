@@ -53,7 +53,11 @@ Stock prices are sequential and time-dependent. Traditional ML models ignore tem
 
 ### Validated
 
-(None yet — ship to validate)
+- **PREP-01**: System extracts Close column as sole input feature (univariate) — Validated in Phase 02: Preprocessing & Sequence Generation
+- **PREP-02**: System applies MinMaxScaler fitted only on training data (prevents data leakage) — Validated in Phase 02: Preprocessing & Sequence Generation
+- **PREP-03**: System creates input-output sequences using 60-day sliding window — Validated in Phase 02: Preprocessing & Sequence Generation
+- **PREP-04**: System splits data 80/20 train/test without shuffling (preserves temporal order) — Validated in Phase 02: Preprocessing & Sequence Generation
+- **PREP-05**: System reshapes sequences to (samples, timesteps, 1) for LSTM input — Validated in Phase 02: Preprocessing & Sequence Generation
 
 ### Active
 
@@ -65,11 +69,6 @@ Stock prices are sequential and time-dependent. Traditional ML models ignore tem
 - [ ] **DATA-05**: Plot raw Close price history before training
 
 #### Preprocessing
-- [ ] **PREP-01**: Extract Close column as sole input feature (univariate)
-- [ ] **PREP-02**: Apply MinMaxScaler fitted only on training data (prevent data leakage)
-- [ ] **PREP-03**: Create input-output sequences using 60-day sliding window
-- [ ] **PREP-04**: Split data 80/20 train/test without shuffling (preserve temporal order)
-- [ ] **PREP-05**: Reshape sequences to (samples, timesteps, 1) for LSTM input
 
 #### Model Architecture
 - [ ] **MODEL-01**: Implement stacked LSTM with 2 LSTM layers (64 units each)
@@ -166,4 +165,9 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: April 2026 after initialization*
+## Current State
+
+Phase 2 complete — the CLI pipeline now produces leakage-safe preprocessing bundles, LSTM-ready tensor shapes, and proof output for chronology and scaler behavior.
+
+---
+*Last updated: April 2026 after Phase 2 completion*
