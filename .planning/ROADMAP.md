@@ -38,7 +38,7 @@
 
 Plans:
 - [x] 01-01-PLAN.md — Project structure, configuration, and utilities (Wave 1)
-- [ ] 01-02-PLAN.md — Data loading with validation and statistics (Wave 2)
+- [x] 01-02-PLAN.md — Data loading with validation and statistics (Wave 2)
 - [ ] 01-03-PLAN.md — Visualization and main entry point (Wave 3)
 
 ---

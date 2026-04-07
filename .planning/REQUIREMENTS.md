@@ -10,10 +10,10 @@
 
 ### Data Pipeline
 
-- [ ] **DATA-01**: System loads stock data from local CSV file (data/AAPL.csv)
-- [ ] **DATA-02**: System parses Date column as datetime index
-- [ ] **DATA-03**: System displays basic statistics (row count, date range, min/max Close)
-- [ ] **DATA-04**: System checks for and reports missing values in Close column
+- [x] **DATA-01**: System loads stock data from local CSV file (data/AAPL.csv)
+- [x] **DATA-02**: System parses Date column as datetime index
+- [x] **DATA-03**: System displays basic statistics (row count, date range, min/max Close)
+- [x] **DATA-04**: System checks for and reports missing values in Close column
 - [ ] **DATA-05**: System plots raw Close price history before training
 
 ### Preprocessing
@@ -104,10 +104,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Complete |
+| DATA-02 | Phase 1 | Complete |
+| DATA-03 | Phase 1 | Complete |
+| DATA-04 | Phase 1 | Complete |
 | DATA-05 | Phase 1 | Pending |
 | INFRA-01 | Phase 1 | Complete |
 | INFRA-02 | Phase 1 | Complete |
