@@ -19,6 +19,10 @@ from src.utils import setup_environment
 from src.data_loader import load_data, display_statistics, check_missing_values
 from src.visualizer import plot_price_history
 from src.visualizer import plot_predictions
+from src.visualizer import plot_predictions_with_confidence_bands
+from src.visualizer import plot_residuals
+from src.visualizer import plot_candlestick_chart
+from src.visualizer import plot_feature_correlation_heatmap
 from src.preprocessor import preprocess, format_preprocessing_proof
 from src.model import build_model, format_model_summary
 from src.trainer import train_model, format_training_summary
@@ -128,6 +132,10 @@ def main():
 
     evaluation_result = {"metrics_path": "not-run"}
     prediction_plot_path = "not-run"
+    prediction_bands_plot_path = "not-run"
+    residual_plot_path = "not-run"
+    candlestick_plot_path = "not-run"
+    correlation_heatmap_path = "not-run"
     if "model" in training_result and "X_test" in bundle:
         evaluation_result = evaluate_model(training_result, bundle)
         print(format_evaluation_summary(evaluation_result))
@@ -140,6 +148,18 @@ def main():
             rmse=evaluation_result["metrics"]["rmse"],
             mape=evaluation_result["metrics"]["mape"],
         )
+        prediction_bands_plot_path = plot_predictions_with_confidence_bands(
+            evaluation_result["actual_usd"],
+            evaluation_result["predictions_usd"],
+            rmse=evaluation_result["metrics"]["rmse"],
+            mape=evaluation_result["metrics"]["mape"],
+        )
+        residual_plot_path = plot_residuals(
+            evaluation_result["actual_usd"],
+            evaluation_result["predictions_usd"],
+        )
+        candlestick_plot_path = plot_candlestick_chart(df)
+        correlation_heatmap_path = plot_feature_correlation_heatmap(df)
         print()
     else:
         print("Phase 4 skipped: training result is missing model or test tensors.")
@@ -164,6 +184,10 @@ def main():
     print(f"  - Training sidecar: {training_result['sidecar_path']}")
     print(f"  - Metrics artifact: {evaluation_result['metrics_path']}")
     print(f"  - Prediction plot: {prediction_plot_path}")
+    print(f"  - Prediction bands plot: {prediction_bands_plot_path}")
+    print(f"  - Residual plot: {residual_plot_path}")
+    print(f"  - Candlestick plot: {candlestick_plot_path}")
+    print(f"  - Correlation heatmap: {correlation_heatmap_path}")
     print()
 
 

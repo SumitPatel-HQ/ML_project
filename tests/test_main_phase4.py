@@ -41,6 +41,13 @@ def test_main_prints_phase4_evaluation_proof_and_artifact_paths(monkeypatch, cap
         "checkpoint_path": "output/best_model.h5",
     }
     calls = {}
+    generated_paths = {
+        "prediction": "output/AAPL_prediction.png",
+        "bands": "output/AAPL_prediction_with_bands.png",
+        "residuals": "output/residuals.png",
+        "candlestick": "output/candlestick.png",
+        "heatmap": "output/correlation_heatmap.png",
+    }
 
     monkeypatch.setattr(main_module, "setup_environment", lambda: None)
     monkeypatch.setattr(main_module, "load_data", lambda path: df)
@@ -88,7 +95,33 @@ def test_main_prints_phase4_evaluation_proof_and_artifact_paths(monkeypatch, cap
             "rmse": rmse,
             "mape": mape,
         }
-        return "output/AAPL_prediction.png"
+        return generated_paths["prediction"]
+
+    def fake_plot_predictions_with_confidence_bands(
+        actual_prices, predicted_prices, rmse, mape
+    ):
+        calls["plot_predictions_with_confidence_bands"] = {
+            "actual_prices": actual_prices,
+            "predicted_prices": predicted_prices,
+            "rmse": rmse,
+            "mape": mape,
+        }
+        return generated_paths["bands"]
+
+    def fake_plot_residuals(actual_prices, predicted_prices):
+        calls["plot_residuals"] = {
+            "actual_prices": actual_prices,
+            "predicted_prices": predicted_prices,
+        }
+        return generated_paths["residuals"]
+
+    def fake_plot_candlestick_chart(loaded_df):
+        calls["plot_candlestick_chart"] = loaded_df
+        return generated_paths["candlestick"]
+
+    def fake_plot_feature_correlation_heatmap(loaded_df):
+        calls["plot_feature_correlation_heatmap"] = loaded_df
+        return generated_paths["heatmap"]
 
     monkeypatch.setattr(main_module, "evaluate_model", fake_evaluate_model)
     monkeypatch.setattr(
@@ -102,6 +135,20 @@ def test_main_prints_phase4_evaluation_proof_and_artifact_paths(monkeypatch, cap
         fake_format_evaluation_summary,
     )
     monkeypatch.setattr(main_module, "plot_predictions", fake_plot_predictions)
+    monkeypatch.setattr(
+        main_module,
+        "plot_predictions_with_confidence_bands",
+        fake_plot_predictions_with_confidence_bands,
+    )
+    monkeypatch.setattr(main_module, "plot_residuals", fake_plot_residuals)
+    monkeypatch.setattr(
+        main_module, "plot_candlestick_chart", fake_plot_candlestick_chart
+    )
+    monkeypatch.setattr(
+        main_module,
+        "plot_feature_correlation_heatmap",
+        fake_plot_feature_correlation_heatmap,
+    )
 
     main_module.main()
 
@@ -111,6 +158,10 @@ def test_main_prints_phase4_evaluation_proof_and_artifact_paths(monkeypatch, cap
     assert "MAPE: 5.750000%" in output
     assert "Targets missed but artifacts saved" in output
     assert "Prediction plot: output/AAPL_prediction.png" in output
+    assert "Prediction bands plot: output/AAPL_prediction_with_bands.png" in output
+    assert "Residual plot: output/residuals.png" in output
+    assert "Candlestick plot: output/candlestick.png" in output
+    assert "Correlation heatmap: output/correlation_heatmap.png" in output
     assert "Metrics artifact: output/metrics.json" in output
     assert calls["evaluate_model"] == (training_result, bundle)
     assert calls["reload_saved_model_smoke_test"] == (bundle, training_result)
@@ -121,3 +172,15 @@ def test_main_prints_phase4_evaluation_proof_and_artifact_paths(monkeypatch, cap
         "rmse": evaluation_result["metrics"]["rmse"],
         "mape": evaluation_result["metrics"]["mape"],
     }
+    assert calls["plot_predictions_with_confidence_bands"] == {
+        "actual_prices": evaluation_result["actual_usd"],
+        "predicted_prices": evaluation_result["predictions_usd"],
+        "rmse": evaluation_result["metrics"]["rmse"],
+        "mape": evaluation_result["metrics"]["mape"],
+    }
+    assert calls["plot_residuals"] == {
+        "actual_prices": evaluation_result["actual_usd"],
+        "predicted_prices": evaluation_result["predictions_usd"],
+    }
+    assert calls["plot_candlestick_chart"] is df
+    assert calls["plot_feature_correlation_heatmap"] is df

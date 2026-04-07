@@ -53,6 +53,10 @@ EARLY_STOPPING_MONITOR = "val_loss"
 
 RAW_PLOT_FILE = "raw_price.png"
 PREDICTION_PLOT_FILE = "AAPL_prediction.png"
+CANDLESTICK_PLOT_FILE = "candlestick.png"
+RESIDUAL_PLOT_FILE = "residuals.png"
+PREDICTION_BANDS_PLOT_FILE = "AAPL_prediction_with_bands.png"
+CORRELATION_HEATMAP_FILE = "correlation_heatmap.png"
 PLOT_DPI = 100
 PLOT_FIGSIZE = (12, 6)
 
