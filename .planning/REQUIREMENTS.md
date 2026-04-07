@@ -42,12 +42,12 @@
 
 ### Evaluation & Output
 
-- [ ] **EVAL-01**: System generates predictions on test set using trained model
-- [ ] **EVAL-02**: System inverse-transforms predictions and actuals to USD prices
-- [ ] **EVAL-03**: System computes and displays RMSE on test set
-- [ ] **EVAL-04**: System computes and displays MAPE on test set
-- [ ] **EVAL-05**: System generates line plot (Actual vs Predicted) and saves as PNG
-- [ ] **EVAL-06**: System saves trained model as output/best_model.h5 for reuse
+- [x] **EVAL-01**: System generates predictions on test set using trained model
+- [x] **EVAL-02**: System inverse-transforms predictions and actuals to USD prices
+- [x] **EVAL-03**: System computes and displays RMSE on test set
+- [x] **EVAL-04**: System computes and displays MAPE on test set
+- [x] **EVAL-05**: System generates line plot (Actual vs Predicted) and saves as PNG
+- [x] **EVAL-06**: System saves trained model as output/best_model.h5 for reuse
 
 ### Infrastructure & Configuration
 
@@ -128,12 +128,12 @@
 | TRAIN-03 | Phase 3 | Complete |
 | TRAIN-04 | Phase 3 | Complete |
 | TRAIN-05 | Phase 3 | Complete |
-| EVAL-01 | Phase 4 | Pending |
-| EVAL-02 | Phase 4 | Pending |
-| EVAL-03 | Phase 4 | Pending |
-| EVAL-04 | Phase 4 | Pending |
-| EVAL-05 | Phase 4 | Pending |
-| EVAL-06 | Phase 4 | Pending |
+| EVAL-01 | Phase 4 | Complete |
+| EVAL-02 | Phase 4 | Complete |
+| EVAL-03 | Phase 4 | Complete |
+| EVAL-04 | Phase 4 | Complete |
+| EVAL-05 | Phase 4 | Complete |
+| EVAL-06 | Phase 4 | Complete |
 | AUTO-01 | Phase 5 | Pending |
 | AUTO-02 | Phase 5 | Pending |
 | AUTO-03 | Phase 5 | Pending |

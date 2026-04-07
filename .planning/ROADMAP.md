@@ -12,7 +12,7 @@
 - [x] **Phase 1: Project Setup & Data Pipeline** - Initialize structure, load and validate CSV data (completed 2026-04-07)
 - [x] **Phase 2: Preprocessing & Sequence Generation** - Transform raw data into LSTM-ready sequences (completed 2026-04-07)
 - [x] **Phase 3: Model Architecture & Training** - Build stacked LSTM and train with regularization (code complete 2026-04-07; live training requires TensorFlow-supported Python environment)
-- [ ] **Phase 4: Evaluation & Visualization** - Generate predictions, compute metrics, and create plots
+- [x] **Phase 4: Evaluation & Visualization** - Generate predictions, compute metrics, and create plots (completed 2026-04-08; end-to-end runtime still requires TensorFlow-supported Python)
 - [ ] **Phase 5: Autonomous Correction & Performance Optimization Loop** - Enable AI agent to manage Test → Diagnose → Fix → Re-verify loop
 
 ---
@@ -105,7 +105,11 @@ Plans:
 4. User can reload saved model from output/best_model.h5 and re-run inference without retraining
 5. Plot axes are labeled correctly: X = "Trading Days (Test Set)", Y = "Close Price (USD)"
 
-**Plans**: TBD
+**Plans**: 2 plans in 2 waves
+
+Plans:
+- [x] 04-01-PLAN.md — TDD evaluation contract, metrics artifact, and saved-model reuse proof (Wave 1)
+- [x] 04-02-PLAN.md — TDD prediction plotting and Phase 4 CLI wiring (Wave 2)
 
 ---
 
@@ -135,7 +139,7 @@ Plans:
 | 1. Project Setup & Data Pipeline | 3/3 | Complete   | 2026-04-07 |
 | 2. Preprocessing & Sequence Generation | 2/2 | Complete | 2026-04-07 |
 | 3. Model Architecture & Training | 3/3 | Complete | 2026-04-07 |
-| 4. Evaluation & Visualization | 0/? | Not started | - |
+| 4. Evaluation & Visualization | 2/2 | Complete | 2026-04-08 |
 | 5. Autonomous Correction & Performance Optimization Loop | 0/? | Not started | - |
 
 ---
