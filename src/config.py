@@ -1,0 +1,31 @@
+"""Centralized configuration for the stock prediction pipeline."""
+
+DATA_PATH = "data/AAPL.csv"
+OUTPUT_DIR = "output"
+
+DATE_COLUMN = "Date"
+TARGET_COLUMN = "Close"
+
+SEQUENCE_LENGTH = 60
+TRAIN_SPLIT = 0.8
+NORMALIZE_RANGE = (0, 1)
+
+LSTM_UNITS = 64
+LSTM_LAYERS = 2
+DROPOUT_RATE = 0.2
+DENSE_UNITS = 32
+LEARNING_RATE = 0.001
+
+BATCH_SIZE = 32
+EPOCHS = 100
+VALIDATION_SPLIT = 0.1
+EARLY_STOPPING_PATIENCE = 10
+EARLY_STOPPING_MONITOR = "val_loss"
+
+RAW_PLOT_FILE = "raw_price.png"
+PREDICTION_PLOT_FILE = "AAPL_prediction.png"
+PLOT_DPI = 100
+PLOT_FIGSIZE = (12, 6)
+
+MODEL_FILE = "best_model.h5"
+RANDOM_SEED = 42
