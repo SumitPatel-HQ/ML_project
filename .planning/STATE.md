@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-04-07T18:57:15.051Z"
+last_updated: "2026-04-07T18:57:33.533Z"
 progress:
   total_phases: 5
   completed_phases: 1
@@ -83,6 +83,8 @@ Run `/gsd-plan-phase 5` to create executable plans for Phase 5 using the capture
 5. **Workflow mode:** YOLO — auto-approve plans and execute rapidly
 - [Phase 02]: Return a dict bundle so later phases and the CLI can share one preprocessing contract.
 - [Phase 02]: Keep proof formatting separate from tensor generation so verification output stays reusable.
+- [Phase 02]: Print concise preprocessing proof from format_preprocessing_proof instead of dumping tensors in main.py.
+- [Phase 02]: Use lightweight support modules with optional heavy imports so pipeline tests can run in a CPU-only environment.
 
 ### Open Questions
 
@@ -142,6 +144,7 @@ None
 
 ---
 | Phase 02 P01 | 12 | 2 tasks | 4 files |
+| Phase 02 P02 | 8 | 2 tasks | 6 files |
 
 ## Reflections
 
