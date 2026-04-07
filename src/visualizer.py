@@ -6,6 +6,9 @@ and file saving for analysis and reporting.
 """
 
 import os
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from src.config import (
@@ -74,4 +77,50 @@ def plot_price_history(df, column=TARGET_COLUMN, output_filename=RAW_PLOT_FILE):
 
     print(f"{STATUS_OK} Saved plot to {output_path}")
 
+    return output_path
+
+
+def plot_predictions(
+    actual_prices,
+    predicted_prices,
+    rmse,
+    mape,
+    output_filename=PREDICTION_PLOT_FILE,
+    ticker="AAPL",
+):
+    """Plot actual vs. predicted closing prices for the test set."""
+    fig, ax = plt.subplots(figsize=PLOT_FIGSIZE)
+    trading_days = range(len(actual_prices))
+
+    ax.plot(
+        trading_days,
+        actual_prices,
+        color="#1f77b4",
+        linestyle="-",
+        linewidth=1.8,
+        label="Actual",
+    )
+    ax.plot(
+        trading_days,
+        predicted_prices,
+        color="#ff7f0e",
+        linestyle="--",
+        linewidth=1.8,
+        label="Predicted",
+    )
+    ax.set_title(
+        f"{ticker} Predicted vs Actual Close | RMSE: {rmse:.4f} | MAPE: {mape:.4f}%",
+        fontsize=14,
+        fontweight="bold",
+    )
+    ax.set_xlabel("Trading Days (Test Set)", fontsize=12)
+    ax.set_ylabel("Close Price (USD)", fontsize=12)
+    ax.grid(True, alpha=0.3, linestyle="--")
+    ax.legend(loc="best", frameon=True)
+    plt.tight_layout()
+
+    output_path = os.path.join(OUTPUT_DIR, output_filename)
+    fig.savefig(output_path, dpi=PLOT_DPI, bbox_inches="tight")
+    plt.close(fig)
+    print(f"{STATUS_OK} Saved plot to {output_path}")
     return output_path
