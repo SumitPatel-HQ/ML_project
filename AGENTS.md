@@ -31,23 +31,36 @@ The ONE thing that must work: Given a CSV file of historical AAPL stock data, th
 | Visualization       | Clear actual vs. predicted plot |
 <!-- GSD:project-end -->
 
-<!-- GSD:stack-start source:STACK.md -->
 ## Technology Stack
 
-Technology stack not yet documented. Will populate after codebase mapping or first phase.
-<!-- GSD:stack-end -->
+- **Languge**: Python 3.10+
+- **Deep Learning**: TensorFlow 2.12+, Keras
+- **Data Processing**: pandas (2.0.0+), numpy (1.24.0+)
+- **Machine Learning**: scikit-learn (1.3.0+) for scaling and preprocessing
+- **Visualization**: matplotlib (3.7.0+) for price plots and metrics
+- **Hardware**: CPU-optimized training pipeline (no CUDA required)
 
-<!-- GSD:conventions-start source:CONVENTIONS.md -->
 ## Conventions
 
-Conventions not yet established. Will populate as patterns emerge during development.
-<!-- GSD:conventions-end -->
+- **Modular Backend**: Code split into `data_loader`, `preprocessor`, `model`, `trainer`, and `visualizer`.
+- **Reproducibility**: Global seeds set for NumPy and TensorFlow via `src/utils.py`.
+- **Configuration**: All hyperparameters (window size, units, learning rate) centralized in `src/config.py`.
+- **Leakage Prevention**: Scalers (`MinMaxScaler`) fitted ONLY on training data; temporal split for train/test (no shuffling).
+- **Docstrings**: Google/Numpy style docstrings for all core functions.
+- **Phased Execution**: `main.py` orchestrated by discrete phases (1: Load, 2: Preprocess, 3: Build/Train, 4: Evaluate).
 
-<!-- GSD:architecture-start source:ARCHITECTURE.md -->
 ## Architecture
 
-Architecture not yet mapped. Follow existing patterns found in the codebase.
-<!-- GSD:architecture-end -->
+The project follows a modular pipeline architecture designed for offline scalability:
+
+- **src/config.py**: Configuration layer containing file paths and model hyperparameters.
+- **src/data_loader.py**: Data ingestion layer for loading and cleaning Kaggle CSV files.
+- **src/preprocessor.py**: Transformation layer mapping raw prices to normalized (60, 1) sequences.
+- **src/model.py**: Model definition layer implementing a 2-layer stacked LSTM with dropout.
+- **src/trainer.py**: execution layer managing the Keras training loop and callbacks.
+- **src/visualizer.py**: Presentation layer for generating professional diagnostic plots.
+- **src/utils.py**: Utility layer for environment setup and metric calculation.
+- **main.py**: Orchestration layer that chains modules into a complete ML lifecycle.
 
 <!-- GSD:workflow-start source:GSD defaults -->
 ## GSD Workflow Enforcement
