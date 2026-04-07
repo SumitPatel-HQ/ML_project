@@ -28,26 +28,26 @@ def test_main_prints_phase2_preprocessing_proof(monkeypatch, capsys):
     monkeypatch.setattr(
         main_module, "setup_environment", lambda: calls.setdefault("setup", True)
     )
-    monkeypatch.setattr(
-        main_module, "load_data", lambda path: calls.setdefault("load_path", path) or df
-    )
-    monkeypatch.setattr(
-        main_module,
-        "display_statistics",
-        lambda loaded_df: calls.setdefault("stats_df", loaded_df),
-    )
-    monkeypatch.setattr(
-        main_module,
-        "check_missing_values",
-        lambda loaded_df: calls.setdefault("missing_df", loaded_df) or 0,
-    )
-    monkeypatch.setattr(
-        main_module,
-        "plot_price_history",
-        lambda loaded_df: (
-            calls.setdefault("plot_df", loaded_df) or "output/raw_price.png"
-        ),
-    )
+
+    def fake_load_data(path):
+        calls["load_path"] = path
+        return df
+
+    def fake_display_statistics(loaded_df):
+        calls["stats_df"] = loaded_df
+
+    def fake_check_missing_values(loaded_df):
+        calls["missing_df"] = loaded_df
+        return 0
+
+    def fake_plot_price_history(loaded_df):
+        calls["plot_df"] = loaded_df
+        return "output/raw_price.png"
+
+    monkeypatch.setattr(main_module, "load_data", fake_load_data)
+    monkeypatch.setattr(main_module, "display_statistics", fake_display_statistics)
+    monkeypatch.setattr(main_module, "check_missing_values", fake_check_missing_values)
+    monkeypatch.setattr(main_module, "plot_price_history", fake_plot_price_history)
 
     def fake_preprocess(loaded_df):
         calls["preprocess_df"] = loaded_df
