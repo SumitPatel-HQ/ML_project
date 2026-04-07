@@ -8,6 +8,10 @@ and exploratory statistics display.
 import pandas as pd
 from src.config import DATA_PATH, DATE_COLUMN, TARGET_COLUMN
 
+STATUS_OK = "[OK]"
+STATUS_ERROR = "[ERROR]"
+STATUS_WARN = "[WARN]"
+
 
 def load_data(filepath=DATA_PATH, date_column=DATE_COLUMN):
     """
@@ -40,19 +44,19 @@ def load_data(filepath=DATA_PATH, date_column=DATE_COLUMN):
             parse_dates=True,  # Converts to datetime.Timestamp automatically
         )
 
-        print(f"✓ Loaded data from {filepath}")
+        print(f"{STATUS_OK} Loaded data from {filepath}")
         print(f"  Shape: {df.shape[0]} rows, {df.shape[1]} columns")
         print(f"  Columns: {', '.join(df.columns.tolist())}")
 
         return df
 
     except FileNotFoundError:
-        print(f"✗ Error: File not found: {filepath}")
+        print(f"{STATUS_ERROR} File not found: {filepath}")
         print(f"  Expected location: data/AAPL.csv")
         raise
 
     except Exception as e:
-        print(f"✗ Error loading data: {e}")
+        print(f"{STATUS_ERROR} Error loading data: {e}")
         raise
 
 
@@ -96,7 +100,7 @@ def display_statistics(df, column=TARGET_COLUMN):
         print(f"  Mean: ${df[column].mean():.2f}")
         print(f"  Std:  ${df[column].std():.2f}")
     else:
-        print(f"⚠ Warning: Column '{column}' not found in DataFrame")
+        print(f"{STATUS_WARN} Column '{column}' not found in DataFrame")
 
     print("=" * 60 + "\n")
 
@@ -120,15 +124,15 @@ def check_missing_values(df, column=TARGET_COLUMN):
         Missing values in Close: 0
     """
     if column not in df.columns:
-        print(f"✗ Error: Column '{column}' not found in DataFrame")
+        print(f"{STATUS_ERROR} Column '{column}' not found in DataFrame")
         return -1
 
     missing_count = df[column].isna().sum()
 
     if missing_count == 0:
-        print(f"✓ Missing values in {column}: 0")
+        print(f"{STATUS_OK} Missing values in {column}: 0")
     else:
-        print(f"⚠ Missing values in {column}: {missing_count}")
+        print(f"{STATUS_WARN} Missing values in {column}: {missing_count}")
         print(f"  This represents {100 * missing_count / len(df):.2f}% of data")
 
         # Show where missing values occur

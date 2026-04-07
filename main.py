@@ -23,6 +23,19 @@ from src.model import build_model, format_model_summary
 from src.trainer import train_model, format_training_summary
 
 
+def _get_phase3_input_shape(bundle):
+    X_train = bundle.get("X_train")
+    if X_train is not None and hasattr(X_train, "shape"):
+        return X_train.shape[1:]
+
+    metadata = bundle.get("metadata", {})
+    X_train_shape = metadata.get("X_train_shape")
+    if X_train_shape is not None:
+        return X_train_shape[1:]
+
+    return None
+
+
 def main():
     """
     Execute the stock price prediction pipeline.
@@ -86,13 +99,19 @@ def main():
     print("PHASE 3: Model Architecture & Training")
     print("=" * 70 + "\n")
 
-    model = build_model(input_shape=bundle["X_train"].shape[1:])
-    print(format_model_summary(model))
-    print()
+    input_shape = _get_phase3_input_shape(bundle)
+    training_result = {"checkpoint_path": "not-run", "sidecar_path": "not-run"}
+    if input_shape is not None and "X_train" in bundle:
+        model = build_model(input_shape=input_shape)
+        print(format_model_summary(model))
+        print()
 
-    training_result = train_model(model, bundle)
-    print(format_training_summary(training_result))
-    print()
+        training_result = train_model(model, bundle)
+        print(format_training_summary(training_result))
+        print()
+    else:
+        print("Phase 3 skipped: preprocessing bundle is missing training tensors.")
+        print()
 
     # ==========================================================================
     # PHASE 3 COMPLETE

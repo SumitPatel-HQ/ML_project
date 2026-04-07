@@ -6,6 +6,8 @@ import os
 import random
 import numpy as np
 
+STATUS_PREFIX = "[OK]"
+
 try:
     import tensorflow as tf
 except ModuleNotFoundError:
@@ -34,7 +36,7 @@ def set_random_seeds(seed=RANDOM_SEED):
     np.random.seed(seed)
     if tf is not None:
         tf.random.set_seed(seed)
-    print(f"✓ Random seeds set to {seed}")
+    print(f"{STATUS_PREFIX} Random seeds set to {seed}")
 
 
 def setup_environment():
@@ -46,7 +48,7 @@ def setup_environment():
     """
     # Create output directory
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    print(f"✓ Output directory: {OUTPUT_DIR}/")
+    print(f"{STATUS_PREFIX} Output directory: {OUTPUT_DIR}/")
 
     # Set random seeds
     set_random_seeds()

@@ -17,6 +17,8 @@ from src.config import (
     PLOT_FIGSIZE,
 )
 
+STATUS_OK = "[OK]"
+
 
 def plot_price_history(df, column=TARGET_COLUMN, output_filename=RAW_PLOT_FILE):
     """
@@ -70,6 +72,6 @@ def plot_price_history(df, column=TARGET_COLUMN, output_filename=RAW_PLOT_FILE):
     # Close figure to free memory
     plt.close(fig)
 
-    print(f"✓ Saved plot to {output_path}")
+    print(f"{STATUS_OK} Saved plot to {output_path}")
 
     return output_path
