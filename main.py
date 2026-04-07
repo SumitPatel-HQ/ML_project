@@ -1,49 +1,83 @@
-"""Main entry point for the stock price prediction pipeline."""
+"""
+Stock Price Prediction Pipeline - Main Entry Point
+
+Orchestrates the full ML pipeline from data loading through
+model training, evaluation, and visualization.
+
+Usage:
+    python main.py
+
+Phases:
+    Phase 1: Load data, validate, and visualize raw prices
+    Phase 2: Preprocess and generate LSTM input sequences
+    Phase 3: Build and train LSTM model
+    Phase 4: Evaluate and visualize predictions
+"""
 
 from src.config import DATA_PATH
-from src.data_loader import check_missing_values, display_statistics, load_data
-from src.preprocessor import format_preprocessing_proof, preprocess
 from src.utils import setup_environment
+from src.data_loader import load_data, display_statistics, check_missing_values
 from src.visualizer import plot_price_history
 
 
 def main():
+    """
+    Execute the stock price prediction pipeline.
+
+    Currently implements Phase 1: Data loading and validation.
+    Future phases will be added here as development progresses.
+    """
     print("\n" + "=" * 70)
-    print("STOCK PRICE PREDICTION PIPELINE")
+    print(" " * 15 + "STOCK PRICE PREDICTION PIPELINE")
+    print(" " * 20 + "LSTM Neural Networks")
     print("=" * 70 + "\n")
 
+    # ==========================================================================
+    # SETUP
+    # ==========================================================================
     print("Setting up environment...")
     setup_environment()
     print()
 
+    # ==========================================================================
+    # PHASE 1: DATA LOADING & VALIDATION
+    # ==========================================================================
     print("=" * 70)
     print("PHASE 1: Data Loading & Validation")
     print("=" * 70 + "\n")
 
+    # Load data
+    print("Loading data...")
     df = load_data(DATA_PATH)
+    print()
+
+    # Display statistics
     display_statistics(df)
+
+    # Check for missing values
+    print("Checking data quality...")
     missing_count = check_missing_values(df)
+    print()
+
+    # Visualize raw price history
+    print("Generating visualization...")
     plot_path = plot_price_history(df)
     print()
 
-    print("=" * 70)
-    print("PHASE 2: Preprocessing & Sequence Generation")
-    print("=" * 70 + "\n")
-
-    bundle = preprocess(df)
-    proof = format_preprocessing_proof(bundle)
-    print(proof)
-    print()
-
+    # ==========================================================================
+    # PHASE 1 COMPLETE
+    # ==========================================================================
     print("=" * 70)
     print("✓ PHASE 1 COMPLETE")
-    print("✓ PHASE 2 COMPLETE")
     print("=" * 70)
-    print(f"Plot: {plot_path}")
-    print(f"Rows: {len(df)}")
-    print(f"Missing values: {missing_count}")
-    print(f"X_train shape: {bundle['metadata']['X_train_shape']}")
-    print(f"X_test shape: {bundle['metadata']['X_test_shape']}")
+    print(f"\nOutputs:")
+    print(f"  - Plot: {plot_path}")
+    print(f"  - Rows: {len(df)}")
+    print(
+        f"  - Date range: {df.index.min().strftime('%Y-%m-%d')} to {df.index.max().strftime('%Y-%m-%d')}"
+    )
+    print(f"  - Missing values: {missing_count}")
+    print()
 
 
 if __name__ == "__main__":
