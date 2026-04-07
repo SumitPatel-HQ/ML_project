@@ -37,7 +37,7 @@
 **Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 01-01-PLAN.md — Project structure, configuration, and utilities (Wave 1)
+- [x] 01-01-PLAN.md — Project structure, configuration, and utilities (Wave 1)
 - [ ] 01-02-PLAN.md — Data loading with validation and statistics (Wave 2)
 - [ ] 01-03-PLAN.md — Visualization and main entry point (Wave 3)
 
@@ -81,7 +81,12 @@ Plans:
 4. User sees "Model saved to output/best_model.h5" confirmation message
 5. Training completes in < 5 minutes on CPU without errors
 
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
+
+Plans:
+- [ ] 03-01-PLAN.md — TDD model architecture contract and lazy TensorFlow loading (Wave 1)
+- [ ] 03-02-PLAN.md — TDD trainer bundle, callbacks, sidecar, and training summary (Wave 2)
+- [ ] 03-03-PLAN.md — Wire Phase 3 model/trainer output into the CLI pipeline (Wave 3)
 
 ---
 

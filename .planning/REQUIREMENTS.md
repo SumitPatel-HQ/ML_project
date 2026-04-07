@@ -51,10 +51,10 @@
 
 ### Infrastructure & Configuration
 
-- [ ] **INFRA-01**: System centralizes all hyperparameters in src/config.py
-- [ ] **INFRA-02**: System uses modular structure (data_loader, preprocessor, model, trainer, evaluator, visualizer)
+- [x] **INFRA-01**: System centralizes all hyperparameters in src/config.py
+- [x] **INFRA-02**: System uses modular structure (data_loader, preprocessor, model, trainer, evaluator, visualizer)
 - [ ] **INFRA-03**: System provides main.py as entry point for full pipeline
-- [ ] **INFRA-04**: System sets random seeds for numpy and TensorFlow (reproducibility)
+- [x] **INFRA-04**: System sets random seeds for numpy and TensorFlow (reproducibility)
 
 ### Autonomous Agent Capabilities
 
@@ -109,10 +109,10 @@
 | DATA-03 | Phase 1 | Pending |
 | DATA-04 | Phase 1 | Pending |
 | DATA-05 | Phase 1 | Pending |
-| INFRA-01 | Phase 1 | Pending |
-| INFRA-02 | Phase 1 | Pending |
+| INFRA-01 | Phase 1 | Complete |
+| INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Pending |
-| INFRA-04 | Phase 1 | Pending |
+| INFRA-04 | Phase 1 | Complete |
 | PREP-01 | Phase 2 | Complete |
 | PREP-02 | Phase 2 | Complete |
 | PREP-03 | Phase 2 | Complete |
