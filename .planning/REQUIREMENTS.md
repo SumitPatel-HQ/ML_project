@@ -1,7 +1,7 @@
 # Requirements
 ## Stock Price Prediction using LSTM Neural Networks
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Last updated:** April 2026
 
 ---
@@ -18,11 +18,11 @@
 
 ### Preprocessing
 
-- [ ] **PREP-01**: System extracts Close column as sole input feature (univariate)
-- [ ] **PREP-02**: System applies MinMaxScaler fitted only on training data (prevents data leakage)
-- [ ] **PREP-03**: System creates input-output sequences using 60-day sliding window
-- [ ] **PREP-04**: System splits data 80/20 train/test without shuffling (preserves temporal order)
-- [ ] **PREP-05**: System reshapes sequences to (samples, timesteps, 1) for LSTM input
+- [x] **PREP-01**: System extracts Close column as sole input feature (univariate)
+- [x] **PREP-02**: System applies MinMaxScaler fitted only on training data (prevents data leakage)
+- [x] **PREP-03**: System creates input-output sequences using 60-day sliding window
+- [x] **PREP-04**: System splits data 80/20 train/test without shuffling (preserves temporal order)
+- [x] **PREP-05**: System reshapes sequences to (samples, timesteps, 1) for LSTM input
 
 ### Model Architecture
 
@@ -55,6 +55,13 @@
 - [ ] **INFRA-02**: System uses modular structure (data_loader, preprocessor, model, trainer, evaluator, visualizer)
 - [ ] **INFRA-03**: System provides main.py as entry point for full pipeline
 - [ ] **INFRA-04**: System sets random seeds for numpy and TensorFlow (reproducibility)
+
+### Autonomous Agent Capabilities
+
+- [ ] **AUTO-01**: AI agent autonomously runs E2E pipeline verification and continuously monitors outputs (MAPE, RMSE, script stability)
+- [ ] **AUTO-02**: AI agent autonomously diagnoses performance degradation (MAPE ≥ 5% or script failures) by analyzing logs and identifying bottlenecks
+- [ ] **AUTO-03**: AI agent autonomously applies fixes (hyperparameter adjustments, data scaling corrections) and re-runs verification without human intervention
+- [ ] **AUTO-04**: AI agent generates REPAIR-LOG.md documenting each autonomous change, rationale, and performance improvement results
 
 ---
 
@@ -106,11 +113,11 @@
 | INFRA-02 | Phase 1 | Pending |
 | INFRA-03 | Phase 1 | Pending |
 | INFRA-04 | Phase 1 | Pending |
-| PREP-01 | Phase 2 | Pending |
-| PREP-02 | Phase 2 | Pending |
-| PREP-03 | Phase 2 | Pending |
-| PREP-04 | Phase 2 | Pending |
-| PREP-05 | Phase 2 | Pending |
+| PREP-01 | Phase 2 | Complete |
+| PREP-02 | Phase 2 | Complete |
+| PREP-03 | Phase 2 | Complete |
+| PREP-04 | Phase 2 | Complete |
+| PREP-05 | Phase 2 | Complete |
 | MODEL-01 | Phase 3 | Pending |
 | MODEL-02 | Phase 3 | Pending |
 | MODEL-03 | Phase 3 | Pending |
@@ -127,6 +134,10 @@
 | EVAL-04 | Phase 4 | Pending |
 | EVAL-05 | Phase 4 | Pending |
 | EVAL-06 | Phase 4 | Pending |
+| AUTO-01 | Phase 5 | Pending |
+| AUTO-02 | Phase 5 | Pending |
+| AUTO-03 | Phase 5 | Pending |
+| AUTO-04 | Phase 5 | Pending |
 
 ---
 
@@ -139,10 +150,11 @@
 ✓ **Clear visualization** of actual vs predicted prices
 
 ### Technical Completeness
-✓ All 29 v1 requirements implemented and tested  
+✓ All 33 v1 requirements implemented and tested (29 base + 4 AUTO)  
 ✓ Modular code structure with separation of concerns  
 ✓ Reproducible results (random seed set)  
-✓ Model persistence (saved .h5 file)
+✓ Model persistence (saved .h5 file)  
+✓ Autonomous agent self-correction capabilities
 
 ### Documentation
 ✓ README with usage instructions  

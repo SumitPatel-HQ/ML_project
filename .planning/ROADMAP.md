@@ -58,7 +58,11 @@ Plans:
 4. User sees confirmation that Close column was extracted and normalized to [0,1]
 5. User can inspect first sequence and verify it contains 60 consecutive normalized prices
 
-**Plans**: TBD
+**Plans**: 2 plans in 2 waves
+
+Plans:
+- [x] 02-01-PLAN.md — TDD preprocessing contract, metadata, and proof formatter (Wave 1)
+- [x] 02-02-PLAN.md — Wire preprocessing proof output into main pipeline (Wave 2)
 
 ---
 
