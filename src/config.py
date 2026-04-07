@@ -69,6 +69,14 @@ TRAINING_SIDECAR_FILE = "training_history.json"
 METRICS_FILE = "metrics.json"
 RMSE_TARGET = 5.0
 MAPE_TARGET = 5.0
+AUTONOMOUS_FAILURE_ENV = "LSTM_FORCE_AUTONOMOUS_FAILURE"
+AUTONOMOUS_REQUIRED_ARTIFACTS = (MODEL_FILE, METRICS_FILE, PREDICTION_PLOT_FILE)
+AUTONOMOUS_ALLOWED_REPAIR_SCOPE = (
+    "offline-only",
+    "AAPL-only",
+    "Close-only",
+    "stacked-LSTM",
+)
 
 # ==============================================================================
 # REPRODUCIBILITY
