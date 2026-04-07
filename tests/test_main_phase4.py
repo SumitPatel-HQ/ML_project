@@ -19,12 +19,14 @@ def test_main_prints_phase4_evaluation_proof_and_artifact_paths(monkeypatch, cap
     )
     bundle = {
         "X_train": type("FakeTensor", (), {"shape": (16, 60, 1)})(),
+        "X_test": ["fake-test-tensor"],
         "metadata": {
             "X_train_shape": (16, 60, 1),
             "X_test_shape": (4, 60, 1),
         },
     }
     training_result = {
+        "model": object(),
         "checkpoint_path": "output/best_model.h5",
         "sidecar_path": "output/training_history.json",
         "metadata": {"best_epoch": 7},

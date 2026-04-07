@@ -18,9 +18,15 @@ from src.config import DATA_PATH
 from src.utils import setup_environment
 from src.data_loader import load_data, display_statistics, check_missing_values
 from src.visualizer import plot_price_history
+from src.visualizer import plot_predictions
 from src.preprocessor import preprocess, format_preprocessing_proof
 from src.model import build_model, format_model_summary
 from src.trainer import train_model, format_training_summary
+from src.evaluator import (
+    evaluate_model,
+    reload_saved_model_smoke_test,
+    format_evaluation_summary,
+)
 
 
 def _get_phase3_input_shape(bundle):
@@ -114,10 +120,36 @@ def main():
         print()
 
     # ==========================================================================
-    # PHASE 3 COMPLETE
+    # PHASE 4: EVALUATION & VISUALIZATION
     # ==========================================================================
     print("=" * 70)
-    print("✓ PHASE 3 COMPLETE")
+    print("PHASE 4: Evaluation & Visualization")
+    print("=" * 70 + "\n")
+
+    evaluation_result = {"metrics_path": "not-run"}
+    prediction_plot_path = "not-run"
+    if "model" in training_result and "X_test" in bundle:
+        evaluation_result = evaluate_model(training_result, bundle)
+        print(format_evaluation_summary(evaluation_result))
+        print()
+
+        reload_saved_model_smoke_test(bundle, training_result)
+        prediction_plot_path = plot_predictions(
+            evaluation_result["actual_usd"],
+            evaluation_result["predictions_usd"],
+            rmse=evaluation_result["metrics"]["rmse"],
+            mape=evaluation_result["metrics"]["mape"],
+        )
+        print()
+    else:
+        print("Phase 4 skipped: training result is missing model or test tensors.")
+        print()
+
+    # ==========================================================================
+    # PHASE 4 COMPLETE
+    # ==========================================================================
+    print("=" * 70)
+    print("PHASE 4 COMPLETE")
     print("=" * 70)
     print(f"\nOutputs:")
     print(f"  - Plot: {plot_path}")
@@ -130,6 +162,8 @@ def main():
     print(f"  - X_test shape: {bundle['metadata']['X_test_shape']}")
     print(f"  - Model: {training_result['checkpoint_path']}")
     print(f"  - Training sidecar: {training_result['sidecar_path']}")
+    print(f"  - Metrics artifact: {evaluation_result['metrics_path']}")
+    print(f"  - Prediction plot: {prediction_plot_path}")
     print()
 
 
