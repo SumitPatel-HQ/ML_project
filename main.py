@@ -19,6 +19,8 @@ from src.utils import setup_environment
 from src.data_loader import load_data, display_statistics, check_missing_values
 from src.visualizer import plot_price_history
 from src.preprocessor import preprocess, format_preprocessing_proof
+from src.model import build_model, format_model_summary
+from src.trainer import train_model, format_training_summary
 
 
 def main():
@@ -78,10 +80,25 @@ def main():
     print()
 
     # ==========================================================================
-    # PHASE 1 COMPLETE
+    # PHASE 3: MODEL ARCHITECTURE & TRAINING
     # ==========================================================================
     print("=" * 70)
-    print("✓ PHASE 1 COMPLETE")
+    print("PHASE 3: Model Architecture & Training")
+    print("=" * 70 + "\n")
+
+    model = build_model(input_shape=bundle["X_train"].shape[1:])
+    print(format_model_summary(model))
+    print()
+
+    training_result = train_model(model, bundle)
+    print(format_training_summary(training_result))
+    print()
+
+    # ==========================================================================
+    # PHASE 3 COMPLETE
+    # ==========================================================================
+    print("=" * 70)
+    print("✓ PHASE 3 COMPLETE")
     print("=" * 70)
     print(f"\nOutputs:")
     print(f"  - Plot: {plot_path}")
@@ -92,6 +109,8 @@ def main():
     print(f"  - Missing values: {missing_count}")
     print(f"  - X_train shape: {bundle['metadata']['X_train_shape']}")
     print(f"  - X_test shape: {bundle['metadata']['X_test_shape']}")
+    print(f"  - Model: {training_result['checkpoint_path']}")
+    print(f"  - Training sidecar: {training_result['sidecar_path']}")
     print()
 
 
