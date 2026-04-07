@@ -128,7 +128,12 @@ Plans:
 4. If any metric fails, the agent autonomously analyzes logs, identifies bottlenecks (e.g., hyperparameters, data scaling), and applies fixes without human intervention
 5. The loop continues until the project consistently meets all Success Criteria across multiple consecutive runs, achieving a "Self-Correcting" state
 
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
+
+Plans:
+- [ ] 05-01-PLAN.md — TDD autonomous verification report and diagnosis contract (Wave 1)
+- [ ] 05-02-PLAN.md — TDD repair controller, rollback, and REPAIR-LOG writer (Wave 2)
+- [ ] 05-03-PLAN.md — TDD Phase 5 CLI wiring and autonomous loop entrypoint (Wave 3)
 
 ---
 
