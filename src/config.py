@@ -62,6 +62,9 @@ PLOT_FIGSIZE = (12, 6)
 
 MODEL_FILE = "best_model.h5"
 TRAINING_SIDECAR_FILE = "training_history.json"
+METRICS_FILE = "metrics.json"
+RMSE_TARGET = 5.0
+MAPE_TARGET = 5.0
 
 # ==============================================================================
 # REPRODUCIBILITY

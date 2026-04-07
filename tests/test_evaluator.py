@@ -106,7 +106,7 @@ def test_evaluate_model_returns_predictions_metrics_and_artifact(monkeypatch, tm
     )
     np.testing.assert_allclose(result["actual_usd"], np.array([105.0, 107.0, 109.0]))
     assert result["metrics"]["rmse"] == pytest.approx(1.0)
-    assert result["metrics"]["mape"] == pytest.approx(0.930144, rel=1e-6)
+    assert result["metrics"]["mape"] == pytest.approx(0.934797, rel=1e-6)
     assert result["thresholds"] == {"rmse_target": 5.0, "mape_target": 5.0}
     assert result["passes"] == {"rmse_pass": True, "mape_pass": True}
     assert result["checkpoint_path"] == training_result["checkpoint_path"]
@@ -225,6 +225,10 @@ def test_evaluate_model_raises_hard_errors_for_missing_required_inputs(
         training_result["checkpoint_path"] = str(
             tmp_path.joinpath("output", "best_model.h5")
         ).replace("\\", "/")
+
+    checkpoint_path = tmp_path.joinpath("output", "best_model.h5")
+    checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
+    checkpoint_path.write_text("fake model bytes", encoding="utf-8")
 
     with pytest.raises((ValueError, RuntimeError), match=error_message):
         evaluator_module.evaluate_model(training_result, preprocessing_bundle)
