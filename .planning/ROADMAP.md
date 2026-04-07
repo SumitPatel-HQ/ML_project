@@ -84,7 +84,7 @@ Plans:
 **Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 03-01-PLAN.md — TDD model architecture contract and lazy TensorFlow loading (Wave 1)
+- [x] 03-01-PLAN.md — TDD model architecture contract and lazy TensorFlow loading (Wave 1)
 - [ ] 03-02-PLAN.md — TDD trainer bundle, callbacks, sidecar, and training summary (Wave 2)
 - [ ] 03-03-PLAN.md — Wire Phase 3 model/trainer output into the CLI pipeline (Wave 3)
 
@@ -134,7 +134,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Project Setup & Data Pipeline | 3/3 | Complete   | 2026-04-07 |
 | 2. Preprocessing & Sequence Generation | 2/2 | Complete | 2026-04-07 |
-| 3. Model Architecture & Training | 0/? | Not started | - |
+| 3. Model Architecture & Training | 1/3 | In Progress | - |
 | 4. Evaluation & Visualization | 0/? | Not started | - |
 | 5. Autonomous Correction & Performance Optimization Loop | 0/? | Not started | - |
 

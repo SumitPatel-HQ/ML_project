@@ -26,11 +26,11 @@
 
 ### Model Architecture
 
-- [ ] **MODEL-01**: System implements stacked LSTM with 2 LSTM layers (64 units each)
-- [ ] **MODEL-02**: System adds dropout layers (0.2) after each LSTM for regularization
-- [ ] **MODEL-03**: System adds Dense layer (32 units, ReLU) for non-linear combination
-- [ ] **MODEL-04**: System includes output layer (1 unit) for predicted closing price
-- [ ] **MODEL-05**: System compiles model with Adam optimizer (lr=0.001) and MSE loss
+- [x] **MODEL-01**: System implements stacked LSTM with 2 LSTM layers (64 units each)
+- [x] **MODEL-02**: System adds dropout layers (0.2) after each LSTM for regularization
+- [x] **MODEL-03**: System adds Dense layer (32 units, ReLU) for non-linear combination
+- [x] **MODEL-04**: System includes output layer (1 unit) for predicted closing price
+- [x] **MODEL-05**: System compiles model with Adam optimizer (lr=0.001) and MSE loss
 
 ### Training
 
@@ -118,11 +118,11 @@
 | PREP-03 | Phase 2 | Complete |
 | PREP-04 | Phase 2 | Complete |
 | PREP-05 | Phase 2 | Complete |
-| MODEL-01 | Phase 3 | Pending |
-| MODEL-02 | Phase 3 | Pending |
-| MODEL-03 | Phase 3 | Pending |
-| MODEL-04 | Phase 3 | Pending |
-| MODEL-05 | Phase 3 | Pending |
+| MODEL-01 | Phase 3 | Complete |
+| MODEL-02 | Phase 3 | Complete |
+| MODEL-03 | Phase 3 | Complete |
+| MODEL-04 | Phase 3 | Complete |
+| MODEL-05 | Phase 3 | Complete |
 | TRAIN-01 | Phase 3 | Pending |
 | TRAIN-02 | Phase 3 | Pending |
 | TRAIN-03 | Phase 3 | Pending |
