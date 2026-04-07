@@ -13,6 +13,7 @@
 - [ ] **Phase 2: Preprocessing & Sequence Generation** - Transform raw data into LSTM-ready sequences
 - [ ] **Phase 3: Model Architecture & Training** - Build stacked LSTM and train with regularization
 - [ ] **Phase 4: Evaluation & Visualization** - Generate predictions, compute metrics, and create plots
+- [ ] **Phase 5: Autonomous Correction & Performance Optimization Loop** - Enable AI agent to manage Test → Diagnose → Fix → Re-verify loop
 
 ---
 
@@ -33,7 +34,12 @@
 4. User can modify hyperparameters in src/config.py and see changes take effect
 5. Code structure matches specified layout (src/ folder with config.py, data_loader.py, etc.)
 
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
+
+Plans:
+- [ ] 01-01-PLAN.md — Project structure, configuration, and utilities (Wave 1)
+- [ ] 01-02-PLAN.md — Data loading with validation and statistics (Wave 2)
+- [ ] 01-03-PLAN.md — Visualization and main entry point (Wave 3)
 
 ---
 
@@ -94,6 +100,25 @@
 
 ---
 
+### Phase 5: Autonomous Correction & Performance Optimization Loop
+
+**Goal**: Enable the AI agent to autonomously manage a "Test → Diagnose → Fix → Re-verify" loop to guarantee the project's core performance metrics
+
+**Depends on**: Phase 4
+
+**Requirements**: AUTO-01, AUTO-02, AUTO-03, AUTO-04
+
+**Success Criteria** (what must be TRUE):
+1. The AI agent successfully identifies a simulated "performance drop" (e.g., forced MAPE ≥ 5% failure) and restores MAPE to < 5% autonomously
+2. A REPAIR-LOG.md is generated, documenting every autonomous change, its rationale, and the resulting performance improvement
+3. The agent autonomously runs E2E pipeline verification and monitors outputs (MAPE, RMSE, script stability)
+4. If any metric fails, the agent autonomously analyzes logs, identifies bottlenecks (e.g., hyperparameters, data scaling), and applies fixes without human intervention
+5. The loop continues until the project consistently meets all Success Criteria across multiple consecutive runs, achieving a "Self-Correcting" state
+
+**Plans**: TBD
+
+---
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -102,19 +127,20 @@
 | 2. Preprocessing & Sequence Generation | 0/? | Not started | - |
 | 3. Model Architecture & Training | 0/? | Not started | - |
 | 4. Evaluation & Visualization | 0/? | Not started | - |
+| 5. Autonomous Correction & Performance Optimization Loop | 0/? | Not started | - |
 
 ---
 
 ## Notes
 
 **Phase Derivation:**
-Phases follow the natural ML pipeline flow: Setup → Prepare Data → Train Model → Evaluate Results. Each phase delivers a complete, verifiable capability.
+Phases follow the natural ML pipeline flow: Setup → Prepare Data → Train Model → Evaluate Results → Autonomous Optimization. Phase 5 adds a self-healing layer where the AI agent autonomously maintains model quality through continuous verification and correction loops.
 
 **Coarse Granularity:**
-With 4 phases for 29 requirements, each phase contains 5-10 requirements. This keeps planning lightweight while maintaining clear delivery boundaries.
+With 5 phases for 29+ requirements, each phase contains 4-10 requirements. This keeps planning lightweight while maintaining clear delivery boundaries. Phase 5 focuses specifically on autonomous agent capabilities.
 
 **Dependencies:**
-Strict linear dependency chain (1 → 2 → 3 → 4) reflects the sequential nature of ML pipelines — you cannot train without preprocessed data, and you cannot evaluate without a trained model.
+Linear dependency chain (1 → 2 → 3 → 4 → 5) reflects both the sequential nature of ML pipelines and the requirement that autonomous optimization can only occur after the complete pipeline is functional.
 
 **Success Criteria Format:**
 All criteria are user-observable behaviors (what the user can see, verify, or inspect), not implementation details. This makes phase completion unambiguous.
