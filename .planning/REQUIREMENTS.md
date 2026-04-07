@@ -34,11 +34,11 @@
 
 ### Training
 
-- [ ] **TRAIN-01**: System trains for up to 100 epochs with batch_size=32
-- [ ] **TRAIN-02**: System uses 10% validation split from training data
-- [ ] **TRAIN-03**: System implements EarlyStopping (patience=10, monitor='val_loss')
-- [ ] **TRAIN-04**: System saves best model weights using ModelCheckpoint
-- [ ] **TRAIN-05**: System displays training/validation loss per epoch
+- [x] **TRAIN-01**: System trains for up to 100 epochs with batch_size=32
+- [x] **TRAIN-02**: System uses 10% validation split from training data
+- [x] **TRAIN-03**: System implements EarlyStopping (patience=10, monitor='val_loss')
+- [x] **TRAIN-04**: System saves best model weights using ModelCheckpoint
+- [x] **TRAIN-05**: System displays training/validation loss per epoch
 
 ### Evaluation & Output
 
@@ -123,11 +123,11 @@
 | MODEL-03 | Phase 3 | Complete |
 | MODEL-04 | Phase 3 | Complete |
 | MODEL-05 | Phase 3 | Complete |
-| TRAIN-01 | Phase 3 | Pending |
-| TRAIN-02 | Phase 3 | Pending |
-| TRAIN-03 | Phase 3 | Pending |
-| TRAIN-04 | Phase 3 | Pending |
-| TRAIN-05 | Phase 3 | Pending |
+| TRAIN-01 | Phase 3 | Complete |
+| TRAIN-02 | Phase 3 | Complete |
+| TRAIN-03 | Phase 3 | Complete |
+| TRAIN-04 | Phase 3 | Complete |
+| TRAIN-05 | Phase 3 | Complete |
 | EVAL-01 | Phase 4 | Pending |
 | EVAL-02 | Phase 4 | Pending |
 | EVAL-03 | Phase 4 | Pending |

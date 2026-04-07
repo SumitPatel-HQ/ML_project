@@ -85,7 +85,7 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md — TDD model architecture contract and lazy TensorFlow loading (Wave 1)
-- [ ] 03-02-PLAN.md — TDD trainer bundle, callbacks, sidecar, and training summary (Wave 2)
+- [x] 03-02-PLAN.md — TDD trainer bundle, callbacks, sidecar, and training summary (Wave 2)
 - [ ] 03-03-PLAN.md — Wire Phase 3 model/trainer output into the CLI pipeline (Wave 3)
 
 ---
