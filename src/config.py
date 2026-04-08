@@ -77,6 +77,14 @@ AUTONOMOUS_ALLOWED_REPAIR_SCOPE = (
     "Close-only",
     "stacked-LSTM",
 )
+AUTONOMOUS_PASS_STREAK = 3
+AUTONOMOUS_MAX_REPAIR_ATTEMPTS = 2
+AUTONOMOUS_MAX_REPAIR_MINUTES = 10
+REPAIR_LOG_FILE = "REPAIR-LOG.md"
+
+# ==============================================================================
+# AUTONOMOUS REPAIR LOOP
+# ==============================================================================
 
 # ==============================================================================
 # REPRODUCIBILITY
