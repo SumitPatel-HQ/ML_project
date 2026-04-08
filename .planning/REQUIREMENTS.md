@@ -60,8 +60,8 @@
 
 - [x] **AUTO-01**: AI agent autonomously runs E2E pipeline verification and continuously monitors outputs (MAPE, RMSE, script stability)
 - [x] **AUTO-02**: AI agent autonomously diagnoses performance degradation (MAPE ≥ 5% or script failures) by analyzing logs and identifying bottlenecks
-- [ ] **AUTO-03**: AI agent autonomously applies fixes (hyperparameter adjustments, data scaling corrections) and re-runs verification without human intervention
-- [ ] **AUTO-04**: AI agent generates REPAIR-LOG.md documenting each autonomous change, rationale, and performance improvement results
+- [x] **AUTO-03**: AI agent autonomously applies fixes (hyperparameter adjustments, data scaling corrections) and re-runs verification without human intervention
+- [x] **AUTO-04**: AI agent generates REPAIR-LOG.md documenting each autonomous change, rationale, and performance improvement results
 
 ---
 
@@ -136,8 +136,8 @@
 | EVAL-06 | Phase 4 | Complete |
 | AUTO-01 | Phase 5 | Complete |
 | AUTO-02 | Phase 5 | Complete |
-| AUTO-03 | Phase 5 | Pending |
-| AUTO-04 | Phase 5 | Pending |
+| AUTO-03 | Phase 5 | Complete |
+| AUTO-04 | Phase 5 | Complete |
 
 ---
 
