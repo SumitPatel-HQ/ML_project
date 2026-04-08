@@ -1,20 +1,9 @@
-"""
-Stock Price Prediction Pipeline - Main Entry Point
+"""Stock Price Prediction Pipeline - Main Entry Point."""
 
-Orchestrates the full ML pipeline from data loading through
-model training, evaluation, and visualization.
+import os
+import sys
 
-Usage:
-    python main.py
-
-Phases:
-    Phase 1: Load data, validate, and visualize raw prices
-    Phase 2: Preprocess and generate LSTM input sequences
-    Phase 3: Build and train LSTM model
-    Phase 4: Evaluate and visualize predictions
-"""
-
-from src.config import DATA_PATH
+from src.config import AUTONOMOUS_FAILURE_ENV, DATA_PATH, REPAIR_LOG_FILE
 from src.utils import setup_environment
 from src.data_loader import load_data, display_statistics, check_missing_values
 from src.visualizer import plot_price_history
@@ -31,6 +20,16 @@ from src.evaluator import (
     reload_saved_model_smoke_test,
     format_evaluation_summary,
 )
+from src.autonomous_verifier import (
+    build_autonomous_verification_report,
+    diagnose_verification_failure,
+    format_autonomous_verification_summary,
+)
+from src.repair_loop import (
+    format_repair_outcome,
+    run_autonomous_repair_loop,
+    run_pipeline_subprocess,
+)
 
 
 def _get_phase3_input_shape(bundle):
@@ -44,6 +43,52 @@ def _get_phase3_input_shape(bundle):
         return X_train_shape[1:]
 
     return None
+
+
+def _build_phase5_initial_run_result(
+    training_result, evaluation_result, prediction_plot_path, phase4_ran
+):
+    if phase4_ran:
+        return {
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "",
+            "duration_seconds": 0.0,
+            "metrics_path": evaluation_result["metrics_path"],
+            "checkpoint_path": training_result["checkpoint_path"],
+            "prediction_plot_path": prediction_plot_path,
+            "failure_injection": os.getenv(AUTONOMOUS_FAILURE_ENV, ""),
+        }
+
+    return {
+        "exit_code": 1,
+        "stdout": "phase4_skipped",
+        "stderr": "phase4_skipped",
+        "duration_seconds": 0.0,
+        "metrics_path": evaluation_result["metrics_path"],
+        "checkpoint_path": training_result["checkpoint_path"],
+        "prediction_plot_path": prediction_plot_path,
+        "failure_injection": os.getenv(AUTONOMOUS_FAILURE_ENV, ""),
+    }
+
+
+def _rerun_pipeline_without_phase5():
+    child_env = {**os.environ, "LSTM_SKIP_PHASE5": "1"}
+    return run_pipeline_subprocess([sys.executable, "main.py"], env=child_env)
+
+
+def _verify_phase5_run(run_result):
+    return build_autonomous_verification_report(run_result)
+
+
+def _apply_autonomous_repair(diagnosis, report, attempt_number):
+    return {
+        "name": f"attempt-{attempt_number}-{diagnosis['category']}",
+        "rationale": diagnosis["hints"][0]
+        if diagnosis.get("hints")
+        else "Retry verification.",
+        "changed_files": [],
+    }
 
 
 def main():
@@ -188,6 +233,39 @@ def main():
     print(f"  - Residual plot: {residual_plot_path}")
     print(f"  - Candlestick plot: {candlestick_plot_path}")
     print(f"  - Correlation heatmap: {correlation_heatmap_path}")
+    print()
+
+    if os.getenv("LSTM_SKIP_PHASE5") == "1":
+        return
+
+    # ==========================================================================
+    # PHASE 5: AUTONOMOUS CORRECTION & PERFORMANCE OPTIMIZATION LOOP
+    # ==========================================================================
+    print("=" * 70)
+    print("PHASE 5: Autonomous Correction & Performance Optimization Loop")
+    print("=" * 70 + "\n")
+
+    phase4_ran = "model" in training_result and "X_test" in bundle
+    initial_run_result = _build_phase5_initial_run_result(
+        training_result,
+        evaluation_result,
+        prediction_plot_path,
+        phase4_ran,
+    )
+    initial_report = build_autonomous_verification_report(initial_run_result)
+    print(format_autonomous_verification_summary(initial_report))
+    print()
+
+    repair_result = run_autonomous_repair_loop(
+        initial_report=initial_report,
+        rerun_pipeline=_rerun_pipeline_without_phase5,
+        verify_run=_verify_phase5_run,
+        diagnose_failure=diagnose_verification_failure,
+        apply_repair=_apply_autonomous_repair,
+    )
+    print(f"Autonomous status: {repair_result['status']}")
+    print(f"Repair log: {REPAIR_LOG_FILE}")
+    print(format_repair_outcome(repair_result))
     print()
 
 

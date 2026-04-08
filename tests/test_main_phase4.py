@@ -49,6 +49,8 @@ def test_main_prints_phase4_evaluation_proof_and_artifact_paths(monkeypatch, cap
         "heatmap": "output/correlation_heatmap.png",
     }
 
+    monkeypatch.setenv("LSTM_SKIP_PHASE5", "1")
+
     monkeypatch.setattr(main_module, "setup_environment", lambda: None)
     monkeypatch.setattr(main_module, "load_data", lambda path: df)
     monkeypatch.setattr(main_module, "display_statistics", lambda loaded_df: None)
