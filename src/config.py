@@ -5,6 +5,9 @@ Centralizes all hyperparameters, paths, and settings.
 Modify values here to experiment with different configurations.
 """
 
+import os
+
+
 # ==============================================================================
 # DATA PATHS
 # ==============================================================================
@@ -23,7 +26,7 @@ TARGET_COLUMN = "Close"
 # PREPROCESSING
 # ==============================================================================
 
-SEQUENCE_LENGTH = 60  # Days to look back for LSTM input
+SEQUENCE_LENGTH = int(os.getenv("LSTM_SEQUENCE_LENGTH", 60))  # Days to look back for LSTM input
 TRAIN_SPLIT = 0.8  # 80% train, 20% test
 NORMALIZE_RANGE = (0, 1)  # MinMaxScaler range
 
@@ -35,14 +38,14 @@ LSTM_UNITS = 64  # Units per LSTM layer
 LSTM_LAYERS = 2  # Number of stacked LSTM layers
 DROPOUT_RATE = 0.2  # Dropout for regularization
 DENSE_UNITS = 32  # Units in Dense layer
-LEARNING_RATE = 0.001  # Adam optimizer learning rate
+LEARNING_RATE = float(os.getenv("LSTM_LEARNING_RATE", 0.001))  # Adam optimizer learning rate
 
 # ==============================================================================
 # TRAINING
 # ==============================================================================
 
 BATCH_SIZE = 32
-EPOCHS = 100
+EPOCHS = int(os.getenv("LSTM_EPOCHS", 100))
 VALIDATION_SPLIT = 0.1  # 10% of training data
 EARLY_STOPPING_PATIENCE = 10  # Stop after N epochs without improvement
 EARLY_STOPPING_MONITOR = "val_loss"

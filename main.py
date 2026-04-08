@@ -3,7 +3,11 @@
 import os
 import sys
 
-from src.config import AUTONOMOUS_FAILURE_ENV, DATA_PATH, REPAIR_LOG_FILE
+from src.config import (
+    DATA_PATH,
+    OUTPUT_DIR,
+    MODEL_FILE,
+)
 from src.utils import setup_environment
 from src.data_loader import load_data, display_statistics, check_missing_values
 from src.visualizer import plot_price_history
@@ -20,16 +24,6 @@ from src.evaluator import (
     reload_saved_model_smoke_test,
     format_evaluation_summary,
 )
-from src.autonomous_verifier import (
-    build_autonomous_verification_report,
-    diagnose_verification_failure,
-    format_autonomous_verification_summary,
-)
-from src.repair_loop import (
-    format_repair_outcome,
-    run_autonomous_repair_loop,
-    run_pipeline_subprocess,
-)
 
 
 def _get_phase3_input_shape(bundle):
@@ -45,50 +39,7 @@ def _get_phase3_input_shape(bundle):
     return None
 
 
-def _build_phase5_initial_run_result(
-    training_result, evaluation_result, prediction_plot_path, phase4_ran
-):
-    if phase4_ran:
-        return {
-            "exit_code": 0,
-            "stdout": "",
-            "stderr": "",
-            "duration_seconds": 0.0,
-            "metrics_path": evaluation_result["metrics_path"],
-            "checkpoint_path": training_result["checkpoint_path"],
-            "prediction_plot_path": prediction_plot_path,
-            "failure_injection": os.getenv(AUTONOMOUS_FAILURE_ENV, ""),
-        }
-
-    return {
-        "exit_code": 1,
-        "stdout": "phase4_skipped",
-        "stderr": "phase4_skipped",
-        "duration_seconds": 0.0,
-        "metrics_path": evaluation_result["metrics_path"],
-        "checkpoint_path": training_result["checkpoint_path"],
-        "prediction_plot_path": prediction_plot_path,
-        "failure_injection": os.getenv(AUTONOMOUS_FAILURE_ENV, ""),
-    }
-
-
-def _rerun_pipeline_without_phase5():
-    child_env = {**os.environ, "LSTM_SKIP_PHASE5": "1"}
-    return run_pipeline_subprocess([sys.executable, "main.py"], env=child_env)
-
-
-def _verify_phase5_run(run_result):
-    return build_autonomous_verification_report(run_result)
-
-
-def _apply_autonomous_repair(diagnosis, report, attempt_number):
-    return {
-        "name": f"attempt-{attempt_number}-{diagnosis['category']}",
-        "rationale": diagnosis["hints"][0]
-        if diagnosis.get("hints")
-        else "Retry verification.",
-        "changed_files": [],
-    }
+    return None
 
 
 def main():
@@ -157,13 +108,30 @@ def main():
     input_shape = _get_phase3_input_shape(bundle)
     training_result = {"checkpoint_path": "not-run", "sidecar_path": "not-run"}
     if input_shape is not None and "X_train" in bundle:
-        model = build_model(input_shape=input_shape)
-        print(format_model_summary(model))
-        print()
+        checkpoint_path = os.path.join(OUTPUT_DIR, MODEL_FILE)
+        if os.path.exists(checkpoint_path) and os.getenv("LSTM_REUSE_MODEL") == "1":
+            print(f"Reusing existing model from checkpoint: {checkpoint_path}")
+            try:
+                from tensorflow.keras.models import load_model
 
-        training_result = train_model(model, bundle)
-        print(format_training_summary(training_result))
-        print()
+                model = load_model(checkpoint_path)
+                training_result = {
+                    "model": model,
+                    "checkpoint_path": checkpoint_path,
+                    "sidecar_path": os.path.join(OUTPUT_DIR, "training_history.json"),
+                }
+                print("Model loaded successfully.")
+            except Exception as e:
+                print(f"Failed to load existing model: {e}. Falling back to training.")
+                model = build_model(input_shape=input_shape)
+                training_result = train_model(model, bundle)
+        else:
+            model = build_model(input_shape=input_shape)
+            print(format_model_summary(model))
+            print()
+            training_result = train_model(model, bundle)
+            print(format_training_summary(training_result))
+            print()
     else:
         print("Phase 3 skipped: preprocessing bundle is missing training tensors.")
         print()
@@ -235,37 +203,7 @@ def main():
     print(f"  - Correlation heatmap: {correlation_heatmap_path}")
     print()
 
-    if os.getenv("LSTM_SKIP_PHASE5") == "1":
-        return
-
-    # ==========================================================================
-    # PHASE 5: AUTONOMOUS CORRECTION & PERFORMANCE OPTIMIZATION LOOP
-    # ==========================================================================
-    print("=" * 70)
-    print("PHASE 5: Autonomous Correction & Performance Optimization Loop")
-    print("=" * 70 + "\n")
-
-    phase4_ran = "model" in training_result and "X_test" in bundle
-    initial_run_result = _build_phase5_initial_run_result(
-        training_result,
-        evaluation_result,
-        prediction_plot_path,
-        phase4_ran,
-    )
-    initial_report = build_autonomous_verification_report(initial_run_result)
-    print(format_autonomous_verification_summary(initial_report))
-    print()
-
-    repair_result = run_autonomous_repair_loop(
-        initial_report=initial_report,
-        rerun_pipeline=_rerun_pipeline_without_phase5,
-        verify_run=_verify_phase5_run,
-        diagnose_failure=diagnose_verification_failure,
-        apply_repair=_apply_autonomous_repair,
-    )
-    print(f"Autonomous status: {repair_result['status']}")
-    print(f"Repair log: {REPAIR_LOG_FILE}")
-    print(format_repair_outcome(repair_result))
+    print("Pipeline complete.")
     print()
 
 
