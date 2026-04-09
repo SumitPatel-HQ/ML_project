@@ -51,6 +51,33 @@ def _load_optional_module(module_name, warning_message):
         return None
 
 
+def _build_balanced_close_features(df):
+    close_series = df["Close"].astype(float)
+    features = {
+        "Close": close_series,
+        "Return_1D": close_series.pct_change(),
+        "Log_Return_1D": np.log(close_series / close_series.shift(1)),
+        "SMA_7": close_series.rolling(window=7).mean(),
+        "SMA_21": close_series.rolling(window=21).mean(),
+        "Volatility_7": close_series.pct_change().rolling(window=7).std(),
+        "Volatility_21": close_series.pct_change().rolling(window=21).std(),
+        "Momentum_5": close_series - close_series.shift(5),
+        "Momentum_10": close_series - close_series.shift(10),
+        "EMA_12": close_series.ewm(span=12, adjust=False).mean(),
+        "EMA_26": close_series.ewm(span=26, adjust=False).mean(),
+    }
+
+    delta = close_series.diff()
+    gains = delta.clip(lower=0.0)
+    losses = -delta.clip(upper=0.0)
+    avg_gain = gains.rolling(window=14).mean()
+    avg_loss = losses.rolling(window=14).mean()
+    rs = avg_gain / avg_loss
+    features["RSI_14"] = 100.0 - (100.0 / (1.0 + rs))
+
+    return features
+
+
 def plot_price_history(df, column=TARGET_COLUMN, output_filename=RAW_PLOT_FILE):
     """
     Plot time series of stock prices and save to file.
@@ -275,7 +302,33 @@ def plot_feature_correlation_heatmap(
         )
         return None
 
-    correlation_matrix = df[available_columns].corr()
+    if available_columns == ["Close"]:
+        feature_df = df.assign(**_build_balanced_close_features(df))
+        feature_df = feature_df[
+            [
+                "Close",
+                "Return_1D",
+                "Log_Return_1D",
+                "SMA_7",
+                "SMA_21",
+                "Volatility_7",
+                "Volatility_21",
+                "Momentum_5",
+                "Momentum_10",
+                "EMA_12",
+                "EMA_26",
+                "RSI_14",
+            ]
+        ].dropna()
+        if len(feature_df) < 2:
+            print(
+                f"{STATUS_WARN} Close-only dataset does not have enough history for balanced technical-feature correlation heatmap"
+            )
+            return None
+        correlation_matrix = feature_df.corr()
+    else:
+        correlation_matrix = df[available_columns].corr()
+
     fig, ax = plt.subplots(figsize=(8, 6))
     seaborn.heatmap(
         correlation_matrix,

@@ -1,7 +1,18 @@
-"""Stock Price Prediction Pipeline - Main Entry Point."""
-
 import os
 import sys
+import logging
+
+# Silence TensorFlow and system logging
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
+
+# Import absl after environment setup to ensure it honors the settings
+try:
+    import absl.logging
+    absl.logging.set_verbosity(absl.logging.ERROR)
+except ImportError:
+    pass
 
 from src.config import (
     DATA_PATH,
@@ -39,72 +50,22 @@ def _get_phase3_input_shape(bundle):
     return None
 
 
-    return None
-
-
 def main():
     """
     Execute the stock price prediction pipeline.
-
-    Currently implements Phase 1: Data loading and validation.
-    Future phases will be added here as development progresses.
     """
-    print("\n" + "=" * 70)
-    print(" " * 15 + "STOCK PRICE PREDICTION PIPELINE")
-    print(" " * 20 + "LSTM Neural Networks")
-    print("=" * 70 + "\n")
-
-    # ==========================================================================
-    # SETUP
-    # ==========================================================================
-    print("Setting up environment...")
+    print("\n[STEP 1/4] INGESTING DATA")
     setup_environment()
-    print()
-
-    # ==========================================================================
-    # PHASE 1: DATA LOADING & VALIDATION
-    # ==========================================================================
-    print("=" * 70)
-    print("PHASE 1: Data Loading & Validation")
-    print("=" * 70 + "\n")
-
-    # Load data
-    print("Loading data...")
     df = load_data(DATA_PATH)
-    print()
-
-    # Display statistics
-    display_statistics(df)
-
-    # Check for missing values
-    print("Checking data quality...")
     missing_count = check_missing_values(df)
-    print()
-
-    # Visualize raw price history
-    print("Generating visualization...")
     plot_path = plot_price_history(df)
-    print()
 
-    # ==========================================================================
-    # PHASE 2: PREPROCESSING & SEQUENCE GENERATION
-    # ==========================================================================
-    print("=" * 70)
-    print("PHASE 2: Preprocessing & Sequence Generation")
-    print("=" * 70 + "\n")
-
+    print("\n[STEP 2/4] PREPROCESSING")
     bundle = preprocess(df)
     proof = format_preprocessing_proof(bundle)
     print(proof)
-    print()
 
-    # ==========================================================================
-    # PHASE 3: MODEL ARCHITECTURE & TRAINING
-    # ==========================================================================
-    print("=" * 70)
-    print("PHASE 3: Model Architecture & Training")
-    print("=" * 70 + "\n")
-
+    print("\n[STEP 3/4] MODELING")
     input_shape = _get_phase3_input_shape(bundle)
     training_result = {"checkpoint_path": "not-run", "sidecar_path": "not-run"}
     if input_shape is not None and "X_train" in bundle:
@@ -134,15 +95,8 @@ def main():
             print()
     else:
         print("Phase 3 skipped: preprocessing bundle is missing training tensors.")
-        print()
 
-    # ==========================================================================
-    # PHASE 4: EVALUATION & VISUALIZATION
-    # ==========================================================================
-    print("=" * 70)
-    print("PHASE 4: Evaluation & Visualization")
-    print("=" * 70 + "\n")
-
+    print("\n[STEP 4/4] EVALUATING")
     evaluation_result = {"metrics_path": "not-run"}
     prediction_plot_path = "not-run"
     prediction_bands_plot_path = "not-run"
@@ -176,15 +130,8 @@ def main():
         print()
     else:
         print("Phase 4 skipped: training result is missing model or test tensors.")
-        print()
 
-    # ==========================================================================
-    # PHASE 4 COMPLETE
-    # ==========================================================================
-    print("=" * 70)
-    print("PHASE 4 COMPLETE")
-    print("=" * 70)
-    print(f"\nOutputs:")
+    print("\n[FINAL RESULTS]")
     print(f"  - Plot: {plot_path}")
     print(f"  - Rows: {len(df)}")
     print(
@@ -201,10 +148,8 @@ def main():
     print(f"  - Residual plot: {residual_plot_path}")
     print(f"  - Candlestick plot: {candlestick_plot_path}")
     print(f"  - Correlation heatmap: {correlation_heatmap_path}")
-    print()
 
-    print("Pipeline complete.")
-    print()
+    print("\nPipeline complete.\n")
 
 
 if __name__ == "__main__":

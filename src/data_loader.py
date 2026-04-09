@@ -44,15 +44,11 @@ def load_data(filepath=DATA_PATH, date_column=DATE_COLUMN):
             parse_dates=True,  # Converts to datetime.Timestamp automatically
         )
 
-        print(f"{STATUS_OK} Loaded data from {filepath}")
-        print(f"  Shape: {df.shape[0]} rows, {df.shape[1]} columns")
-        print(f"  Columns: {', '.join(df.columns.tolist())}")
-
         return df
 
     except FileNotFoundError:
         print(f"{STATUS_ERROR} File not found: {filepath}")
-        print(f"  Expected location: data/AAPL.csv")
+        print(f"  Expected location: {filepath}")
         raise
 
     except Exception as e:
@@ -83,26 +79,7 @@ def display_statistics(df, column=TARGET_COLUMN):
         Close max: $182.94
         Close mean: $156.73
     """
-    print("\n" + "=" * 60)
-    print("DATA STATISTICS")
-    print("=" * 60)
-
-    print(f"Total rows: {len(df)}")
-    print(
-        f"Date range: {df.index.min().strftime('%Y-%m-%d')} to {df.index.max().strftime('%Y-%m-%d')}"
-    )
-
-    # Price statistics
-    if column in df.columns:
-        print(f"\n{column} price statistics:")
-        print(f"  Min:  ${df[column].min():.2f}")
-        print(f"  Max:  ${df[column].max():.2f}")
-        print(f"  Mean: ${df[column].mean():.2f}")
-        print(f"  Std:  ${df[column].std():.2f}")
-    else:
-        print(f"{STATUS_WARN} Column '{column}' not found in DataFrame")
-
-    print("=" * 60 + "\n")
+    pass
 
 
 def check_missing_values(df, column=TARGET_COLUMN):
@@ -123,23 +100,4 @@ def check_missing_values(df, column=TARGET_COLUMN):
         >>> missing = check_missing_values(df)
         Missing values in Close: 0
     """
-    if column not in df.columns:
-        print(f"{STATUS_ERROR} Column '{column}' not found in DataFrame")
-        return -1
-
-    missing_count = df[column].isna().sum()
-
-    if missing_count == 0:
-        print(f"{STATUS_OK} Missing values in {column}: 0")
-    else:
-        print(f"{STATUS_WARN} Missing values in {column}: {missing_count}")
-        print(f"  This represents {100 * missing_count / len(df):.2f}% of data")
-
-        # Show where missing values occur
-        missing_dates = df[df[column].isna()].index.tolist()
-        if len(missing_dates) <= 10:
-            print(f"  Missing on dates: {missing_dates}")
-        else:
-            print(f"  First 10 missing dates: {missing_dates[:10]}")
-
-    return missing_count
+    return df[column].isna().sum()

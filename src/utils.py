@@ -36,7 +36,6 @@ def set_random_seeds(seed=RANDOM_SEED):
     np.random.seed(seed)
     if tf is not None:
         tf.random.set_seed(seed)
-    print(f"{STATUS_PREFIX} Random seeds set to {seed}")
 
 
 def setup_environment():
@@ -48,7 +47,6 @@ def setup_environment():
     """
     # Create output directory
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    print(f"{STATUS_PREFIX} Output directory: {OUTPUT_DIR}/")
 
     # Set random seeds
     set_random_seeds()

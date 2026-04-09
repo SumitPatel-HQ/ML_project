@@ -174,3 +174,90 @@ def test_plot_feature_correlation_heatmap_warns_and_skips_when_seaborn_missing(
         "[WARN] seaborn not installed; skipping correlation heatmap"
         in capsys.readouterr().out
     )
+
+
+def test_plot_feature_correlation_heatmap_builds_balanced_features_for_close_only_data(
+    monkeypatch, tmp_path
+):
+    visualizer_module = _load_visualizer_module()
+    captured = {}
+
+    class _FakeSeaborn:
+        @staticmethod
+        def heatmap(data, **kwargs):
+            captured["corr"] = data
+            captured["kwargs"] = kwargs
+
+    real_import_module = visualizer_module.importlib.import_module
+
+    def _import_with_fake_seaborn(name):
+        if name == "seaborn":
+            return _FakeSeaborn()
+        return real_import_module(name)
+
+    close = np.linspace(120.0, 180.0, 80) + np.sin(np.arange(80)) * 2.0
+    df = pd.DataFrame(
+        {"Close": close},
+        index=pd.date_range("2020-01-01", periods=80, freq="B"),
+    )
+
+    monkeypatch.setattr(
+        visualizer_module.importlib, "import_module", _import_with_fake_seaborn
+    )
+    monkeypatch.setattr(visualizer_module, "OUTPUT_DIR", str(tmp_path))
+
+    output_path = visualizer_module.plot_feature_correlation_heatmap(df)
+
+    assert output_path.endswith("correlation_heatmap.png")
+    assert tmp_path.joinpath("correlation_heatmap.png").exists()
+    assert "corr" in captured
+    expected_features = {
+        "Close",
+        "Return_1D",
+        "Log_Return_1D",
+        "SMA_7",
+        "SMA_21",
+        "Volatility_7",
+        "Volatility_21",
+        "Momentum_5",
+        "Momentum_10",
+        "EMA_12",
+        "EMA_26",
+        "RSI_14",
+    }
+    assert expected_features.issubset(set(captured["corr"].columns))
+
+
+def test_plot_feature_correlation_heatmap_warns_when_close_only_data_too_short(
+    monkeypatch, capsys
+):
+    visualizer_module = _load_visualizer_module()
+
+    class _FakeSeaborn:
+        @staticmethod
+        def heatmap(data, **kwargs):
+            raise AssertionError("heatmap should not be called")
+
+    real_import_module = visualizer_module.importlib.import_module
+
+    def _import_with_fake_seaborn(name):
+        if name == "seaborn":
+            return _FakeSeaborn()
+        return real_import_module(name)
+
+    df = pd.DataFrame(
+        {"Close": [100.0, 101.0, 102.0]},
+        index=pd.date_range("2020-01-01", periods=3, freq="B"),
+    )
+
+    monkeypatch.setattr(
+        visualizer_module.importlib, "import_module", _import_with_fake_seaborn
+    )
+
+    output_path = visualizer_module.plot_feature_correlation_heatmap(df)
+
+    assert output_path is None
+    assert (
+        "[WARN] Close-only dataset does not have enough history"
+        in capsys.readouterr().out
+    )

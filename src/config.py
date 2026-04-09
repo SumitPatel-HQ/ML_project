@@ -12,7 +12,7 @@ import os
 # DATA PATHS
 # ==============================================================================
 
-DATA_PATH = "data/AAPL.csv"
+DATA_PATH = "Dataset/actualdataset/AAPL.csv"
 OUTPUT_DIR = "output"
 
 # ==============================================================================

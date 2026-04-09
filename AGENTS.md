@@ -12,7 +12,7 @@ The ONE thing that must work: Given a CSV file of historical AAPL stock data, th
 ### Constraints
 
 ### Technical
-- **Dataset**: Kaggle "15Y Big Tech Stock Data" — AAPL.csv already downloaded
+- **Dataset**: Kaggle "15Y Big Tech Stock Data" — AAPL.csv relocated to Dataset/actualdataset/
 - **Date range**: 2018-01-01 to 2025-01-01 (~1,762 trading days)
 - **Tech stack**: Python 3.10+, TensorFlow 2.x, pandas, scikit-learn, matplotlib
 - **Hardware**: Must train in < 10 minutes on CPU (no GPU required)
