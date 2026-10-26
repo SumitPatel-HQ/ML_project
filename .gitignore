@@ -40,3 +40,4 @@ output/
 *.keras
 *.log
 .DS_Store
+*.txt

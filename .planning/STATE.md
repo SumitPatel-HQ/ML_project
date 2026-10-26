@@ -208,4 +208,3 @@ None
 |------|------|--------|
 | Create project abstract in `abstract.txt` | 2026-04-10 | Completed |
 | Refine project abstract in `abstract.txt` for technical accuracy | 2026-04-10 | Completed |
-| Create block diagram of project in `project_architecture_diagram.md` | 2026-04-10 | Completed |

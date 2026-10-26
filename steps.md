@@ -1,3 +1,5 @@
+pip install -r requirements.txt
+
 To run the standard pipeline:
 
 .\venv\Scripts\python.exe main.py
