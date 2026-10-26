@@ -1,0 +1,7 @@
+Financial markets are inherently dynamic, volatile, and influenced by a complex interplay of economic indicators, investor sentiment, and historical trends. Traditional forecasting methods such as ARIMA and linear regression treat stock price data as stationary and fail to capture the long-range temporal dependencies that drive real-world price movements. This limitation results in poor predictive accuracy, making it difficult for analysts and researchers to derive meaningful forward-looking insights from historical data alone.
+
+To address this gap, this project proposes a deep learning approach using a stacked Long Short-Term Memory (LSTM) neural network — an architecture specifically designed to model sequential, time-dependent data by selectively retaining and discarding information over long time horizons. By training the model on historical Apple Inc. (AAPL) closing prices from the Kaggle '15Y Big Tech Stock Data' dataset (covering the period from 2018 to 2025), the system learns underlying temporal patterns and generates next-day price predictions with quantifiable accuracy, evaluated using Root Mean Squared Error (RMSE) and Mean Absolute Percentage Error (MAPE) metrics.
+
+
+
+

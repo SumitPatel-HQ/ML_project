@@ -1,0 +1,8 @@
+Data Management and Preprocessing Module
+This module handles the complete data lifecycle, starting with the data_loader which ingests historical AAPL stock data from static CSV files. The preprocessor then performs cleaning and sequence transformation, mapping raw prices into normalized (0–1) sliding window segments. This ensures that the data is structured optimally for time-series forecasting while maintaining strict temporal splits to prevent informational leakage between training and testing environments.
+
+Core Predictive Engine and Evaluation Framework
+The heart of the application is a stacked Long Short-Term Memory (LSTM) neural network architecture designed to capture complex temporal dependencies. Regulated by a centralized config layer and executed by the trainer, the model undergoes a refined training process to minimize prediction error. The evaluator module then performs secondary validation, computing performance metrics like MAPE and RMSE to confirm the model meets its accuracy targets.
+
+System Orchestration and Visualization Module
+This module integrates the entire machine learning lifecycle through the main execution script, which orchestrates the discrete stages from data loading to final reporting. The visualizer component processes the model’s predictions to generate professional-grade diagnostic plots, comparing actual price trends against predicted values. Supported by utility functions for environmental stability, this layer provides a comprehensive and user-friendly presentation of the project results.

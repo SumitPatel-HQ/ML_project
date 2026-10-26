@@ -1,0 +1,7 @@
+Stock price movements are highly volatile and time-dependent, making accurate forecasting a challenging task. This project addresses this by applying a Long Short-Term Memory (LSTM) neural network—a deep learning architecture specifically designed for sequential data—to predict Apple Inc. (AAPL) closing stock prices. 
+
+The model is trained on historical daily stock data covering the period from 2018 to 2025, sourced from the Kaggle "15Y Big Tech Stock Data" dataset. Closing prices are normalized using a MinMaxScaler and structured into 60-day sliding window sequences, with an 80/20 temporal train-test split to prevent look-ahead bias and ensure data integrity. The architecture consists of two stacked LSTM layers (64 units each) with Dropout regularization (0.2) for feature extraction, followed by a Dense hidden layer (32 units) and a single output neuron for price regression. 
+
+The system is compiled with the Adam optimizer and Mean Squared Error (MSE) loss. Model performance is evaluated using inverse-transformed Root Mean Squared Error (RMSE) and Mean Absolute Percentage Error (MAPE), targeting a MAPE below 5%. Results are visualized through actual versus predicted price plots. 
+
+The full modular pipeline is implemented in Python using TensorFlow/Keras, scikit-learn, pandas, and Matplotlib. It is designed to be fully reproducible and modular, operating entirely offline to demonstrate high-precision financial time-series forecasting on local hardware.

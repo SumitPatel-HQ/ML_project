@@ -33,11 +33,10 @@ ENV/
 # Project Specific
 .pytest_cache/
 .ruff_cache/
-output/
 
 # Data and Models
 *.h5
 *.keras
 *.log
 .DS_Store
-*.txt
+

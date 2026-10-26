@@ -1,0 +1,9 @@
+{
+  "rmse": 7.110028980013104,
+  "mape": 3.0259829715272986,
+  "rmse_target": 5.0,
+  "mape_target": 5.0,
+  "rmse_pass": false,
+  "mape_pass": true,
+  "checkpoint_path": "output/best_model.h5"
+}
